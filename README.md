@@ -28,18 +28,28 @@ Puntos optativos:
 
 Requerimientos:
 
-Como dueño de producto, me gustaría tener un sistema que me permita realizar encuestas
-Como dueño de producto, me gustaría que cada pregunta pueda tener una o más respuestas.
-Como dueño de producto, me gustaría que cada pregunta pueda tener como máximo 4 respuestas.
-Como dueño de producto, me gustaría que mi aplicación de encuestas posea un login para usuarios.
-Como dueño de producto, me gustaría que los usuarios de mi aplicación puedan cargar preguntas y sus respectivas respuestas.
-Como dueño de producto, me gustaría que se puedan responder encuestas sin estar registrado en el sistema.
-Como dueño de producto, me gustaría que solo los usuarios registrados puedan cargar encuestas.
-Como dueño de producto, me gustaría poder revisar un historial de preguntas por usuario.
-Como dueño de producto, me gustaría poder agrupar encuestas a través de etiquetas.
-Como dueño de producto, me gustaría poder acceder a un listado de todas las encuestas del sistema.
-Como dueño de producto, me gustaría que las encuestas tengan vencimiento.
+- Como dueño de producto, me gustaría tener un sistema que me permita realizar encuestas
+- Como dueño de producto, me gustaría que cada pregunta pueda tener una o más respuestas.
+- Como dueño de producto, me gustaría que cada pregunta pueda tener como máximo 4 respuestas.
+- Como dueño de producto, me gustaría que mi aplicación de encuestas posea un login para usuarios.
+- Como dueño de producto, me gustaría que los usuarios de mi aplicación puedan cargar preguntas y sus respectivas respuestas.
+- Como dueño de producto, me gustaría que se puedan responder encuestas sin estar registrado en el sistema.
+- Como dueño de producto, me gustaría que solo los usuarios registrados puedan cargar encuestas.
+- Como dueño de producto, me gustaría poder revisar un historial de preguntas por usuario.
+- Como dueño de producto, me gustaría poder agrupar encuestas a través de etiquetas.
+- Como dueño de producto, me gustaría poder acceder a un listado de todas las encuestas del sistema.
+- Como dueño de producto, me gustaría que las encuestas tengan vencimiento.
 
 ## 2. Descripción de la solución
+
+Luego de leer los requerimientos, comento lo que planeo hacer: 
+- Backend en Python con Flask, definiendo métodos que permitan lo que el dueño de producto plantea.
+- No implementaré persistencia porque el dueño de producto no lo mencionó, pero principalmente porque no creo llegar con los tiempos.
+- Por la misma razón no implementaré frontend y porque no soy conocedor de React. Si llego a estar más disponible de lo que supongo, me gustaría intentar armar algo sencillo con dicha tecnología
+- Tests
+- Docker
+
+Por desconocimiento, probablemente dejaré los tests y la dockerizacion para lo último, aunque los tests me gustaría escribirlos a medida que voy sumando métodos.
+
 
 ## 3. Instrucciones de ejecución
