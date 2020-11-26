@@ -1,3 +1,5 @@
+from Usuario import Usuario
+
 class DataManager:
     instance = None
 
@@ -10,8 +12,9 @@ class DataManager:
             return DataManager.instance
 
     def __init__(self):
-        usuarios = []
-        encuestas = []
-        preguntas = []
+        self.usuarios = []
+        self.encuestas = []
+        self.preguntas = []
 
-    
+    def nuevoUsuario(self, id, pw):
+        self.usuarios.append(Usuario(id,pw))
