@@ -18,3 +18,14 @@ class DataManager:
 
     def nuevoUsuario(self, id, pw):
         self.usuarios.append(Usuario(id,pw))
+    
+    def loginUsuario(self, id, pw):
+        usuarios = list(filter(lambda x: x.id == id,self.usuarios))
+        if len(usuarios) == 0:
+            return False
+
+        usuario = usuarios[0]
+        if usuario.password == pw:
+            return True
+
+        return False
