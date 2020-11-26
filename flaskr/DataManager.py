@@ -1,4 +1,6 @@
 from Usuario import Usuario
+from Pregunta import Pregunta
+from Respuesta import Respuesta
 
 class DataManager:
     instance = None
@@ -15,6 +17,9 @@ class DataManager:
         self.usuarios = []
         self.encuestas = []
         self.preguntas = []
+        self.respuestas = []
+        self.total_preguntas = 0
+        self.total_respuestas = 0
 
     def nuevoUsuario(self, id, pw):
         self.usuarios.append(Usuario(id,pw))
@@ -29,3 +34,16 @@ class DataManager:
             return True
 
         return False
+
+    def nuevaRespuesta(self, texto, correcta = False):
+        nueva_respuesta = Respuesta(self.total_respuestas, texto, correcta)
+        self.respuestas.append(nueva_respuesta)
+        self.total_respuestas += 1
+        return nueva_respuesta.id
+    
+    def nuevaPregunta(self, pregunta, ids_respuestas):
+        respuestas = filter(labmda r: ids_respuestas.contains(r), self.respuestas)
+        nueva_pregunta = Pregunta(self.total_preguntas, respuestas)
+        self.preguntas.append(nueva_pregunta)
+        self.total_preguntas += 1
+        return nueva_pregunta.id
