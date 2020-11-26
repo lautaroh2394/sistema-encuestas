@@ -1,6 +1,7 @@
 from Usuario import Usuario
 from Pregunta import Pregunta
 from Respuesta import Respuesta
+from Encuesta import Encuesta
 
 class DataManager:
     instance = None
@@ -20,6 +21,7 @@ class DataManager:
         self.respuestas = []
         self.total_preguntas = 0
         self.total_respuestas = 0
+        self.total_encuestas = 0
 
     def nuevoUsuario(self, id, pw):
         self.usuarios.append(Usuario(id,pw))
@@ -47,3 +49,11 @@ class DataManager:
         self.preguntas.append(nueva_pregunta)
         self.total_preguntas += 1
         return nueva_pregunta.id
+
+    def nuevaEncuesta(self, id_preguntas, etiquetas = []):
+        nueva_encuesta = Encuesta(self.total_encuestas, id_preguntas, etiquetas)
+        self.encuestas.append(nueva_encuesta)
+        self.total_encuestas += 1
+        return nueva_encuesta.id
+
+    

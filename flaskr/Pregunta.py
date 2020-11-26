@@ -8,6 +8,7 @@ class Pregunta:
         self.total_correctas = 0
         for res in respuestas:
             self.agregarRespuesta(res)
+            
         self.id = id
         self.id_correctas = [respuesta.id for respuesta in filter(lambda r : r.correcta, self.respuestas)]
     
