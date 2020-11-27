@@ -31,12 +31,7 @@ Requerimientos:
 - Como dueño de producto, me gustaría tener un sistema que me permita realizar encuestas                                            ⛌
 - Como dueño de producto, me gustaría que cada pregunta pueda tener una o más respuestas.                                           * listo DM, falta metodo para app flask
 - Como dueño de producto, me gustaría que cada pregunta pueda tener como máximo 4 respuestas.                                       * listo DM, falta metodo para app flask
-- Como dueño de producto, me gustaría que mi aplicación de encuestas posea un login para usuarios.                                  * listo DM, falta metodo para app flask 
-    (mantener sesiones de manera súper básica: 
-        al loguear devolver un código al ente que llamó al login. 
-        mantener una lista de usuarios logueados junto con el código que se devolvió. 
-        cada vez que el usuario haga un post, debe indicar su usuario y este codigo)
-
+- Como dueño de producto, me gustaría que mi aplicación de encuestas posea un login para usuarios.                                  ⛌
 - Como dueño de producto, me gustaría que los usuarios de mi aplicación puedan cargar preguntas y sus respectivas respuestas.       * listo DM, falta metodo para app flask
 - Como dueño de producto, me gustaría que se puedan responder encuestas sin estar registrado en el sistema.                         
 - Como dueño de producto, me gustaría que solo los usuarios registrados puedan cargar encuestas.
