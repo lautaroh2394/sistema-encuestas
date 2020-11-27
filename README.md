@@ -57,5 +57,11 @@ Luego de leer los requerimientos, comento lo que planeo hacer:
 
 Por desconocimiento, probablemente dejaré los tests y la dockerizacion para lo último, aunque los tests me gustaría escribirlos a medida que voy sumando métodos.
 
+### Comentarios durante el desarrollo
+
+- Para lo referido al guardado de datos decidí armar un singleton para que maneje todo en memoria. Mi idea es que esto sería de alguna manera escalable para poder a futuro modificarlo y realmente interactuar con una bd. Para eso también pensé en varias entidades (clases Encuesta, Respuesta, Pregunta, Usuario) que a mi entender resultarían fáciles de mapear a una base relacional. Hablo de base relacional porque entiendo que para python también hay un módulo para un sqlite autocontenido
+- Para tema login de usuarios se que Flask tiene un módulo 'session' que facilita mucho esto, pero nunca lo usé y no quise 'perder' el tiempo. Armé una entidad que maneja de manera muy muy básica las sesiones, pero siempre pensando que dentro de lo posible lo mejor será aprenderlo y usarlo.
+- Siguiendo con el tema de sesiones, mi idea es que el usuario al loguearse reciba una key, y en futuras consultas deba indicar su usuario y esta key.
+
 
 ## 3. Instrucciones de ejecución
