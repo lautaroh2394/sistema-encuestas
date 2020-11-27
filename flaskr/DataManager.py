@@ -1,15 +1,15 @@
-from Usuario import Usuario
-from Pregunta import Pregunta
-from Respuesta import Respuesta
-from Encuesta import Encuesta
+from flaskr.Usuario import Usuario
+from flaskr.Pregunta import Pregunta
+from flaskr.Respuesta import Respuesta
+from flaskr.Encuesta import Encuesta
 
 class DataManager:
     instance = None
 
     @staticmethod
-    def get_instance():
+    def getInstance():
         if DataManager.instance is not None:
-            return instance
+            return DataManager.instance
         else:
             DataManager.instance = DataManager()
             return DataManager.instance
@@ -24,18 +24,10 @@ class DataManager:
         self.total_encuestas = 0
 
     def nuevoUsuario(self, id, pw):
-        self.usuarios.append(Usuario(id,pw))
-    
-    def loginUsuario(self, id, pw):
-        usuarios = list(filter(lambda x: x.id == id,self.usuarios))
-        if len(usuarios) == 0:
+        if id in [user.id for user in self.usuarios]:
             return False
-
-        usuario = usuarios[0]
-        if usuario.password == pw:
-            return True
-
-        return False
+        self.usuarios.append(Usuario(id,pw))
+        return True
 
     def nuevaRespuesta(self, texto, correcta = False):
         nueva_respuesta = Respuesta(self.total_respuestas, texto, correcta)
@@ -44,7 +36,7 @@ class DataManager:
         return nueva_respuesta.id
     
     def nuevaPregunta(self, pregunta, ids_respuestas):
-        respuestas = filter(labmda r: ids_respuestas.contains(r), self.respuestas)
+        respuestas = filter(lambda resp: resp in ids_respuestas, self.respuestas)
         nueva_pregunta = Pregunta(self.total_preguntas, respuestas)
         self.preguntas.append(nueva_pregunta)
         self.total_preguntas += 1

@@ -1,4 +1,4 @@
-from Respuesta import Respuesta
+from flaskr.Respuesta import Respuesta
 class Pregunta:
     MAX_RESPUESTAS =  4
     MAX_CORRECTAS = 1

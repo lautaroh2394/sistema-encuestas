@@ -28,12 +28,17 @@ Puntos optativos:
 
 Requerimientos:
 
-- Como dueño de producto, me gustaría tener un sistema que me permita realizar encuestas
-- Como dueño de producto, me gustaría que cada pregunta pueda tener una o más respuestas.
-- Como dueño de producto, me gustaría que cada pregunta pueda tener como máximo 4 respuestas.
-- Como dueño de producto, me gustaría que mi aplicación de encuestas posea un login para usuarios.
-- Como dueño de producto, me gustaría que los usuarios de mi aplicación puedan cargar preguntas y sus respectivas respuestas.
-- Como dueño de producto, me gustaría que se puedan responder encuestas sin estar registrado en el sistema.
+- Como dueño de producto, me gustaría tener un sistema que me permita realizar encuestas                                            ⛌
+- Como dueño de producto, me gustaría que cada pregunta pueda tener una o más respuestas.                                           * listo DM, falta metodo para app flask
+- Como dueño de producto, me gustaría que cada pregunta pueda tener como máximo 4 respuestas.                                       * listo DM, falta metodo para app flask
+- Como dueño de producto, me gustaría que mi aplicación de encuestas posea un login para usuarios.                                  * listo DM, falta metodo para app flask 
+    (mantener sesiones de manera súper básica: 
+        al loguear devolver un código al ente que llamó al login. 
+        mantener una lista de usuarios logueados junto con el código que se devolvió. 
+        cada vez que el usuario haga un post, debe indicar su usuario y este codigo)
+
+- Como dueño de producto, me gustaría que los usuarios de mi aplicación puedan cargar preguntas y sus respectivas respuestas.       * listo DM, falta metodo para app flask
+- Como dueño de producto, me gustaría que se puedan responder encuestas sin estar registrado en el sistema.                         
 - Como dueño de producto, me gustaría que solo los usuarios registrados puedan cargar encuestas.
 - Como dueño de producto, me gustaría poder revisar un historial de preguntas por usuario.
 - Como dueño de producto, me gustaría poder agrupar encuestas a través de etiquetas.
@@ -42,9 +47,10 @@ Requerimientos:
 
 ## 2. Descripción de la solución
 
+### Impresiones iniciales
 Luego de leer los requerimientos, comento lo que planeo hacer: 
 - Backend en Python con Flask, definiendo métodos que permitan lo que el dueño de producto plantea.
-- No implementaré persistencia porque el dueño de producto no lo mencionó, pero principalmente porque no creo llegar con los tiempos.
+- No implementaré persistencia porque el dueño de producto no lo mencionó (jeje), pero principalmente porque no creo llegar con los tiempos.
 - Por la misma razón no implementaré frontend y porque no soy conocedor de React. Si llego a estar más disponible de lo que supongo, me gustaría intentar armar algo sencillo con dicha tecnología
 - Tests
 - Docker
