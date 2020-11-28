@@ -121,17 +121,20 @@
 						{
 							"key": "usuario",
 							"value": "usuario11",
-							"type": "text"
+							"type": "text",
+							"disabled": true
 						},
 						{
 							"key": "session_key",
 							"value": "194705419",
-							"type": "text"
+							"type": "text",
+							"disabled": true
 						},
 						{
 							"key": "preguntas",
 							"value": "[\n    {\n        \"pregunta\" : \"ejemplo\",\n        \"respuestas\": [\n            { \"texto\" : \"rta 1\" },\n            { \"texto\" : \"rta 2\" },\n            { \"texto\" : \"rta 3\", \"correcta\" : true}\n        ]\n    }\n]",
-							"type": "text"
+							"type": "text",
+							"disabled": true
 						},
 						{
 							"key": "respuestas",
@@ -160,15 +163,35 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "usuario",
+							"value": "usuario11",
+							"type": "text"
+						},
+						{
+							"key": "session_key",
+							"value": "{{session_key}}",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
-					"raw": "localhost:{{port}}/listar/etiqueta1",
+					"raw": "localhost:{{port}}/listar?etiquetas=[\"etiqueta1\"]",
 					"host": [
 						"localhost"
 					],
 					"port": "{{port}}",
 					"path": [
-						"listar",
-						"etiqueta1"
+						"listar"
+					],
+					"query": [
+						{
+							"key": "etiquetas",
+							"value": "[\"etiqueta1\"]"
+						}
 					]
 				}
 			},
@@ -189,7 +212,7 @@
 						},
 						{
 							"key": "session_key",
-							"value": "",
+							"value": "{{session_key}}",
 							"type": "text"
 						}
 					]
@@ -208,9 +231,55 @@
 			"response": []
 		},
 		{
-			"name": "encuesta consulta",
+			"name": "encuesta",
 			"request": {
 				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "usuario",
+							"value": "usuario11",
+							"type": "text"
+						},
+						{
+							"key": "session_key",
+							"value": "{{session_key}}",
+							"type": "text"
+						},
+						{
+							"key": "preguntas",
+							"value": "[\n    {\n        \"pregunta\" : \"ejemplo\",\n\n        \"respuestas\": [\n            { \"texto\" : \"rta 1\", \"correcta\" : true },\n            { \"texto\" : \"rta 2\" },\n            { \"texto\" : \"rta 3\"}\n        ]\n    }\n]",
+							"type": "text"
+						},
+						{
+							"key": "etiquetas",
+							"value": "[\"etiqueta1\"]",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:{{port}}/encuesta",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"encuesta"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verificar encuesta",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
 				"header": [],
 				"body": {
 					"mode": "formdata",
@@ -238,13 +307,14 @@
 					]
 				},
 				"url": {
-					"raw": "localhost:{{port}}/encuesta",
+					"raw": "localhost:{{port}}/verificar/encuesta_id=0&respuestas=[{\"pregunta_id\": 0,\"respuesta_indicada_id\" : 0}]",
 					"host": [
 						"localhost"
 					],
 					"port": "{{port}}",
 					"path": [
-						"encuesta"
+						"verificar",
+						"encuesta_id=0&respuestas=[{\"pregunta_id\": 0,\"respuesta_indicada_id\" : 0}]"
 					]
 				}
 			},
