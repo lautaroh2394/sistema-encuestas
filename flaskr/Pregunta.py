@@ -3,12 +3,12 @@ class Pregunta:
     MAX_RESPUESTAS =  4
     MAX_CORRECTAS = 1
 
-    def __init__(self, id, respuestas = []):
+    def __init__(self, id, pregunta, respuestas = []):
+        self.pregunta = pregunta
         self.respuestas = []
         self.total_correctas = 0
         for res in respuestas:
             self.agregarRespuesta(res)
-            
         self.id = id
         self.id_correctas = [respuesta.id for respuesta in filter(lambda r : r.correcta, self.respuestas)]
     
@@ -35,3 +35,10 @@ class Pregunta:
         
         self.respuestas.append(respuesta)
         return True
+    
+    def toString(self):
+        return {
+            "pregunta_id" : self.id,
+            "pregunta" : self.pregunta,
+            "respuestas": [ respuesta.toString() for respuesta in self.respuestas]
+        }

@@ -3,3 +3,9 @@ class Respuesta:
         self.id = id
         self.texto = texto
         self.correcta = correcta
+    
+    def toString(self):
+        return {
+            "texto" : self.texto,
+            "respuesta_id": self.id
+        }

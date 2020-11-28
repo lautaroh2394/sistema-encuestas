@@ -27,16 +27,16 @@ Puntos optativos:
 
 
 Requerimientos:
-
+(⛌ = Hecho)
 - Como dueño de producto, me gustaría tener un sistema que me permita realizar encuestas                                            ⛌
-- Como dueño de producto, me gustaría que cada pregunta pueda tener una o más respuestas.                                           * listo DM, falta metodo para app flask
-- Como dueño de producto, me gustaría que cada pregunta pueda tener como máximo 4 respuestas.                                       * listo DM, falta metodo para app flask
+- Como dueño de producto, me gustaría que cada pregunta pueda tener una o más respuestas.                                           ⛌
+- Como dueño de producto, me gustaría que cada pregunta pueda tener como máximo 4 respuestas.                                       ⛌
 - Como dueño de producto, me gustaría que mi aplicación de encuestas posea un login para usuarios.                                  ⛌
-- Como dueño de producto, me gustaría que los usuarios de mi aplicación puedan cargar preguntas y sus respectivas respuestas.       * listo DM, falta metodo para app flask
-- Como dueño de producto, me gustaría que se puedan responder encuestas sin estar registrado en el sistema.                         
-- Como dueño de producto, me gustaría que solo los usuarios registrados puedan cargar encuestas.
+- Como dueño de producto, me gustaría que los usuarios de mi aplicación puedan cargar preguntas y sus respectivas respuestas.       ⛌
+- Como dueño de producto, me gustaría que se puedan responder encuestas sin estar registrado en el sistema.                         * se pueden pedir encuestas anónimamente, aún no se pueden evaluar encuestas anónimamente
+- Como dueño de producto, me gustaría que solo los usuarios registrados puedan cargar encuestas.                                    ⛌
 - Como dueño de producto, me gustaría poder revisar un historial de preguntas por usuario.
-- Como dueño de producto, me gustaría poder agrupar encuestas a través de etiquetas.
+- Como dueño de producto, me gustaría poder agrupar encuestas a través de etiquetas.                                                * falta método en DM para filtrar por etiquetas
 - Como dueño de producto, me gustaría poder acceder a un listado de todas las encuestas del sistema.
 - Como dueño de producto, me gustaría que las encuestas tengan vencimiento.
 
