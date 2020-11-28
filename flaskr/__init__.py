@@ -1,62 +1,71 @@
 import os
+import json
 from flask import Flask, redirect, url_for, request
 from flaskr.DataManager import DataManager
 from flaskr.SessionManager import SessionManager
-import json
 
 #Inicializo usuarios de prueba
-#DataManager.get_instance().nuevoUsuario("usuario11","1234")
+#DataManager.get_instance().nuevo_usuario("usuario11","1234")
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
+    DMI = DataManager.get_instance()
+    SM = SessionManager.get_instance()
 
     def logueado(request):
-        return SessionManager.getInstance().usuarioLogueado(request.form["usuario"], request.form["session_key"])
-    
+        return SM.usuario_logueado(
+            request.form["usuario"],
+            request.form["session_key"]
+            )
+
     @app.route('/login', methods=["POST"])
     def login():
-        logged = SessionManager.getInstance().loginUsuario(request.form["usuario"], request.form["password"])
+        logged = SM.login_usuario(
+            request.form["usuario"],
+            request.form["password"]
+            )
         if logged == False:
-            return str({
-                "mensaje": "Combinación de usuario y contraseña incorrectas",
-                "exito": False
-            })
+            return SessionManager.LOGIN_ERROR
         
         return str({
             "exito" : True,
             "session_key": logged
         })
     
-    @app.route('/signup',methods=['POST'])
+    @app.route('/signup', methods=['POST'])
     def signup():
-        rdo = DataManager.getInstance().nuevoUsuario(request.form["usuario"],request.form["password"])
+        rdo = DMI.nuevo_usuario(
+            request.form["usuario"],
+            request.form["password"]
+            )
         return str({
             "exito": rdo
         })
 
     @app.route("/encuesta", methods=['POST'])
     def encuesta():
-        if not logueado(request): return SessionManager.USUARIO_NO_LOGUEADO
-            
+        if not logueado(request): 
+            return SessionManager.USUARIO_NO_LOGUEADO
+
         preguntas = json.loads(request.form["preguntas"])
         preguntas_id = []
         for pregunta in preguntas:
-            respuestas_id = [ DataManager.getInstance().nuevaRespuesta(respuesta) for respuesta in pregunta["respuestas"] ]
-            pregunta_id = DataManager.getInstance().nuevaPregunta(pregunta["pregunta"], respuestas_id)
+            respuestas_id = [DMI.nueva_respuesta(respuesta) for respuesta in pregunta["respuestas"]]
+            pregunta_id = DMI.nueva_pregunta(pregunta["pregunta"], respuestas_id)
             preguntas_id.append(pregunta_id)
 
         etiquetas = []
         if "etiquetas" in request.form:
             etiquetas = json.loads(request.form["etiquetas"])
 
-        id_encuesta = DataManager.getInstance().nuevaEncuesta(preguntas_id, etiquetas)
+        id_encuesta = DMI.nueva_encuesta(preguntas_id, etiquetas)
         return str({
                 "exito": True,
                 "id_encuesta": id_encuesta
             })
 
     @app.route("/encuesta/<encuesta_id>", methods=['GET'])
-    def get_encuesta(encuesta_id = None):
+    def get_encuesta(encuesta_id=None):
         if encuesta_id is None:
             return str({
                 "exito" : False,
@@ -65,23 +74,23 @@ def create_app(test_config=None):
         
         return str({
             "exito" : True,
-            "encuesta" : DataManager.getInstance().encuesta(encuesta_id)
+            "encuesta" : DMI.encuesta(encuesta_id)
             })
     
-    @app.route('/listar/<etiquetas>', methods=['POST'])
-    def listar_etiquetas(etiquetas):
-        #etiquetas tendrá la estructura: "tag1&tag2&..."
+    @app.route('/listar?etiquetas=<etiquetas>', methods=['POST'])
+    def listar_etiquetas(etiquetas=[]):
         if not logueado(request): return SessionManager.USUARIO_NO_LOGUEADO
         
-        return str(DataManager.getInstance().encuestasSegunEtiquetas(etiquetas.split("&")))
+        return str(DMI.encuestas_segun_etiquetas(json.loads(etiquetas)))
     
     @app.route('/listar', methods=['POST'])
     def listar():
-        if not logueado(request): return SessionManager.USUARIO_NO_LOGUEADO
-        return str(DataManager.getInstance().encuestasSegunEtiquetas([]))
+        if not logueado(request):
+            return SessionManager.USUARIO_NO_LOGUEADO
+        return str(DMI.encuestas_segun_etiquetas([]))
     
     @app.route('/verificar/encuesta_id=<encuesta_id>&respuestas=<respuestas_dadas>', methods=['GET'])
-    def verificar_encuesta(encuesta_id, respuestas_dadas):
+    def verificar_encuesta(encuesta_id=None, respuestas_dadas=[]):
         if encuesta_id is None or respuestas_dadas is None:
             return str({
                 "exito" : False,
@@ -89,16 +98,16 @@ def create_app(test_config=None):
             })
         
         respuestas_dadas = json.loads(respuestas_dadas)
-        resultados = DataManager.getInstance().verificarEncuesta(encuesta_id, respuestas_dadas)
+        resultados = DMI.verificar_encuesta(encuesta_id, respuestas_dadas)
         resultados["exito"] = True
         return str(resultados)
 
     @app.route('/listar_dm')
     def listarDM():
         #Debugging purposes only
-        usuarios = [{"usuario_id": u.id} for u in DataManager.getInstance().usuarios]
-        logueados = [{"usuario_id": u.id, "s_k": u.session_key } for u in SessionManager.getInstance().usuarios_logueados]
-        encuestas = [DataManager.getInstance().encuesta(e.id) for e in DataManager.getInstance().encuestas]
+        usuarios = [{"usuario_id": u.id} for u in DMI.usuarios]
+        logueados = [{"usuario_id": u.id, "s_k": u.session_key} for u in SM.usuarios_logueados]
+        encuestas = [DMI.encuesta(e.id) for e in DMI.encuestas]
         return str({
             "usuarios" : usuarios,
             "logueados": logueados,
