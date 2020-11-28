@@ -13,7 +13,7 @@ class Pregunta:
         self.id_correctas = [respuesta.id for respuesta in self.respuestas if respuesta.correcta]
     
     def agregar_respuesta(self, respuesta):
-        if isinstance(respuesta, Respuesta):
+        if not isinstance(respuesta, Respuesta):
             raise Exception("El parámetro debe ser tipo Respuesta")
 
         if len(self.respuestas) == Pregunta.MAX_RESPUESTAS:
