@@ -62,13 +62,13 @@
 					]
 				},
 				"url": {
-					"raw": "localhost:{{port}}/listar",
+					"raw": "localhost:{{port}}/listar_dm",
 					"host": [
 						"localhost"
 					],
 					"port": "{{port}}",
 					"path": [
-						"listar"
+						"listar_dm"
 					]
 				}
 			},
@@ -142,14 +142,109 @@
 					]
 				},
 				"url": {
-					"raw": "localhost:{{port}}/encuesta/1",
+					"raw": "localhost:{{port}}/encuesta/0",
 					"host": [
 						"localhost"
 					],
 					"port": "{{port}}",
 					"path": [
 						"encuesta",
-						"1"
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar etiquetas",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:{{port}}/listar/etiqueta1",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"listar",
+						"etiqueta1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar encuestas",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "usuario",
+							"value": "usuario11",
+							"type": "text"
+						},
+						{
+							"key": "session_key",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:{{port}}/listar",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "encuesta consulta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "usuario",
+							"value": "usuario11",
+							"type": "text"
+						},
+						{
+							"key": "session_key",
+							"value": "194705419",
+							"type": "text"
+						},
+						{
+							"key": "preguntas",
+							"value": "[\n    {\n        \"pregunta\" : \"ejemplo\",\n\n        \"respuestas\": [\n            { \"texto\" : \"rta 1\", \"correcta\" : true },\n            { \"texto\" : \"rta 2\" },\n            { \"texto\" : \"rta 3\"}\n        ]\n    }\n]",
+							"type": "text"
+						},
+						{
+							"key": "etiquetas",
+							"value": "[\"etiqueta1\"]",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:{{port}}/encuesta",
+					"host": [
+						"localhost"
+					],
+					"port": "{{port}}",
+					"path": [
+						"encuesta"
 					]
 				}
 			},

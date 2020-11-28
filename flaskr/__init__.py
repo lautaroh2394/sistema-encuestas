@@ -33,12 +33,14 @@ def create_app(test_config=None):
 
     @app.route("/encuesta", methods=['POST'])
     def encuesta():
+        '''
         logueado = SessionManager.getInstance().usuarioLogueado(request.form["usuario"],request.form["session_key"])
         if not logueado:
             return str({
                 "exito": False,
                 "mensaje": "Usuario no logueado"
             })
+        '''
             
         preguntas = json.loads(request.form["preguntas"])
         preguntas_id = []
@@ -49,7 +51,7 @@ def create_app(test_config=None):
 
         etiquetas = []
         if "etiquetas" in request.form:
-            etiquetas = request.form["etiquetas"]
+            etiquetas = json.loads(request.form["etiquetas"])
 
         id_encuesta = DataManager.getInstance().nuevaEncuesta(preguntas_id, etiquetas)
         return str({
@@ -70,8 +72,33 @@ def create_app(test_config=None):
             "exito" : True,
             "encuesta" : DataManager.getInstance().encuesta(encuesta_id)
             })
+    
+    @app.route('/listar/<etiquetas>', methods=['POST'])
+    def listar_etiquetas(etiquetas):
+        #etiquetas tendrá la estructura: "tag1&tag2&..."
+        '''
+        logueado = SessionManager.getInstance().usuarioLogueado(request.form["usuario"],request.form["session_key"])
+        if not logueado:
+            return str({
+                "exito": False,
+                "mensaje": "Usuario no logueado"
+            })
+        '''
+        return str(DataManager.getInstance().encuestasSegunEtiquetas(etiquetas.split("&")))
+    
+    @app.route('/listar', methods=['POST'])
+    def listar():
+        '''
+        logueado = SessionManager.getInstance().usuarioLogueado(request.form["usuario"],request.form["session_key"])
+        if not logueado:
+            return str({
+                "exito": False,
+                "mensaje": "Usuario no logueado"
+            })
+        '''
+        return str(DataManager.getInstance().encuestasSegunEtiquetas([]))
 
-    @app.route('/listar')
+    @app.route('/listar_dm')
     def listarDM():
         #Debugging purposes only
         usuarios = [{"usuario_id": u.id} for u in DataManager.getInstance().usuarios]

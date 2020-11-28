@@ -42,7 +42,6 @@ class DataManager:
     
     def nuevaPregunta(self, pregunta, ids_respuestas):
         respuestas = filter(lambda resp: resp.id in ids_respuestas, self.respuestas)
-        print(f"respuestas:{respuestas}")
         nueva_pregunta = Pregunta(self.total_preguntas, pregunta, respuestas)
         self.preguntas.append(nueva_pregunta)
         self.total_preguntas += 1
@@ -54,8 +53,8 @@ class DataManager:
         self.total_encuestas += 1
         return nueva_encuesta.id
 
-    def encuesta(self,id):
-        encuestas = list(filter(lambda e: e.id == int(id), self.encuestas))
+    def encuesta(self,id, etiquetas = []):
+        encuestas = list(filter(lambda encuesta: encuesta.id == int(id) , self.encuestas))
         if len(encuestas) == 0:
             return {}
 
@@ -69,3 +68,18 @@ class DataManager:
 
     def verificarEncuesta(self):
         #TODO
+        pass
+    
+    def encuestasSegunEtiquetas(self, etiquetas):
+        encuestas = (filter(lambda encuesta: encuesta.contieneTodas(etiquetas) , self.encuestas))
+
+        encontradas = []
+        for encuesta in encuestas:
+            preguntas = filter(lambda pregunta: pregunta.id in encuesta.id_preguntas, DataManager.getInstance().preguntas)
+            encontradas.append({
+                "encuesta_id" : encuesta.id,
+                "etiquetas" : encuesta.etiquetas,
+                "preguntas" : [pregunta.toString() for pregunta in preguntas]
+            })
+        
+        return encontradas

@@ -36,8 +36,8 @@ Requerimientos:
 - Como dueño de producto, me gustaría que se puedan responder encuestas sin estar registrado en el sistema.                         * se pueden pedir encuestas anónimamente, aún no se pueden evaluar encuestas anónimamente
 - Como dueño de producto, me gustaría que solo los usuarios registrados puedan cargar encuestas.                                    ⛌
 - Como dueño de producto, me gustaría poder revisar un historial de preguntas por usuario.
-- Como dueño de producto, me gustaría poder agrupar encuestas a través de etiquetas.                                                * falta método en DM para filtrar por etiquetas
-- Como dueño de producto, me gustaría poder acceder a un listado de todas las encuestas del sistema.
+- Como dueño de producto, me gustaría poder agrupar encuestas a través de etiquetas.                                                ⛌
+- Como dueño de producto, me gustaría poder acceder a un listado de todas las encuestas del sistema.                                ⛌
 - Como dueño de producto, me gustaría que las encuestas tengan vencimiento.
 
 ## 2. Descripción de la solución
