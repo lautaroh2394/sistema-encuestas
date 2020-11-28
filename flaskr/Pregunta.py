@@ -36,9 +36,12 @@ class Pregunta:
         self.respuestas.append(respuesta)
         return True
     
-    def toString(self):
+    def toString(self, incluirCorrecta = False):
         return {
             "pregunta_id" : self.id,
             "pregunta" : self.pregunta,
-            "respuestas": [ respuesta.toString() for respuesta in self.respuestas]
+            "respuestas": [ respuesta.toString(incluirCorrecta) for respuesta in self.respuestas]
         }
+    
+    def validarRespuestaId(self, id):
+        return id in self.id_correctas

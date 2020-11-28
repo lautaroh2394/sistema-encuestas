@@ -6,6 +6,11 @@ import math
 
 class SessionManager:
     instance = None
+    USUARIO_NO_LOGUEADO = str({
+        "exito": False,
+        "mensaje": "Usuario no logueado"
+    })
+    
     @staticmethod
     def getInstance():
         if SessionManager.instance is None:

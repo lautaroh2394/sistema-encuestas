@@ -4,8 +4,13 @@ class Respuesta:
         self.texto = texto
         self.correcta = correcta
     
-    def toString(self):
-        return {
+    def toString(self, incluirCorrecta = False):
+        rta =  {
             "texto" : self.texto,
             "respuesta_id": self.id
         }
+
+        if incluirCorrecta:
+            rta["correcta"] = self.correcta
+
+        return rta

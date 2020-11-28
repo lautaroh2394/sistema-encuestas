@@ -53,7 +53,7 @@ class DataManager:
         self.total_encuestas += 1
         return nueva_encuesta.id
 
-    def encuesta(self,id, etiquetas = []):
+    def encuesta(self,id, incluirCorrecta = False):
         encuestas = list(filter(lambda encuesta: encuesta.id == int(id) , self.encuestas))
         if len(encuestas) == 0:
             return {}
@@ -63,13 +63,39 @@ class DataManager:
         return {
             "encuesta_id" : encuesta.id,
             "etiquetas" : encuesta.etiquetas,
-            "preguntas" : [pregunta.toString() for pregunta in preguntas]
+            "preguntas" : [pregunta.toString(incluirCorrecta) for pregunta in preguntas]
         }
 
-    def verificarEncuesta(self):
-        #TODO
-        pass
+    def verificarEncuesta(self, encuesta_id, respuestas_dadas):
+        #respuestas: lista de maps con estructura:
+        '''
+        {
+            pregunta_id: n,
+            respuesta_indicada_id : n
+        }
+        '''
+        encuesta = self.encuesta(encuesta_id, incluirCorrecta=True)
+        
+        correctas = 0
+        for pregunta in encuesta["preguntas"]:
+            pregunta_id = pregunta["pregunta_id"]
+            respuesta_indicada = list(filter(lambda respuesta: respuesta["pregunta_id"] == pregunta_id, respuestas_dadas))
+            if len(respuesta_indicada) != 0:
+                respuesta_indicada = respuesta_indicada[0]
+                correcta = self.validarPregunta(pregunta_id, respuesta_indicada["respuesta_indicada_id"])
+                if correcta:
+                    correctas +=1
+
+
+        return {
+            "total_preguntas" : len(encuesta["preguntas"]),
+            "preguntas_correctas" : correctas
+        }
     
+    def validarPregunta(self, pregunta_id, respuesta_dada_id):
+        pregunta = list(filter(lambda pregunta: pregunta.id == pregunta_id, self.preguntas))[0]
+        return pregunta.validarRespuestaId(respuesta_dada_id)
+
     def encuestasSegunEtiquetas(self, etiquetas):
         encuestas = (filter(lambda encuesta: encuesta.contieneTodas(etiquetas) , self.encuestas))
 

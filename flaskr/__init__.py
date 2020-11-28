@@ -9,6 +9,9 @@ import json
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
+
+    def logueado(request):
+        return SessionManager.getInstance().usuarioLogueado(request.form["usuario"], request.form["session_key"])
     
     @app.route('/login', methods=["POST"])
     def login():
@@ -33,14 +36,7 @@ def create_app(test_config=None):
 
     @app.route("/encuesta", methods=['POST'])
     def encuesta():
-        '''
-        logueado = SessionManager.getInstance().usuarioLogueado(request.form["usuario"],request.form["session_key"])
-        if not logueado:
-            return str({
-                "exito": False,
-                "mensaje": "Usuario no logueado"
-            })
-        '''
+        if not logueado(request): return SessionManager.USUARIO_NO_LOGUEADO
             
         preguntas = json.loads(request.form["preguntas"])
         preguntas_id = []
@@ -59,7 +55,6 @@ def create_app(test_config=None):
                 "id_encuesta": id_encuesta
             })
 
-
     @app.route("/encuesta/<encuesta_id>", methods=['GET'])
     def get_encuesta(encuesta_id = None):
         if encuesta_id is None:
@@ -76,27 +71,27 @@ def create_app(test_config=None):
     @app.route('/listar/<etiquetas>', methods=['POST'])
     def listar_etiquetas(etiquetas):
         #etiquetas tendrá la estructura: "tag1&tag2&..."
-        '''
-        logueado = SessionManager.getInstance().usuarioLogueado(request.form["usuario"],request.form["session_key"])
-        if not logueado:
-            return str({
-                "exito": False,
-                "mensaje": "Usuario no logueado"
-            })
-        '''
+        if not logueado(request): return SessionManager.USUARIO_NO_LOGUEADO
+        
         return str(DataManager.getInstance().encuestasSegunEtiquetas(etiquetas.split("&")))
     
     @app.route('/listar', methods=['POST'])
     def listar():
-        '''
-        logueado = SessionManager.getInstance().usuarioLogueado(request.form["usuario"],request.form["session_key"])
-        if not logueado:
-            return str({
-                "exito": False,
-                "mensaje": "Usuario no logueado"
-            })
-        '''
+        if not logueado(request): return SessionManager.USUARIO_NO_LOGUEADO
         return str(DataManager.getInstance().encuestasSegunEtiquetas([]))
+    
+    @app.route('/verificar/encuesta_id=<encuesta_id>&respuestas=<respuestas_dadas>', methods=['GET'])
+    def verificar_encuesta(encuesta_id, respuestas_dadas):
+        if encuesta_id is None or respuestas_dadas is None:
+            return str({
+                "exito" : False,
+                "mensaje" : "Debe indicar tanto el id de la encuesta como las respuestas"
+            })
+        
+        respuestas_dadas = json.loads(respuestas_dadas)
+        resultados = DataManager.getInstance().verificarEncuesta(encuesta_id, respuestas_dadas)
+        resultados["exito"] = True
+        return str(resultados)
 
     @app.route('/listar_dm')
     def listarDM():
