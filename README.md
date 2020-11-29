@@ -60,3 +60,10 @@ Por desconocimiento, probablemente dejaré los tests y la dockerizacion para lo 
 
 
 ## 3. Instrucciones de ejecución
+
+- Posicionado en la carpeta del repositorio (.../sistema-encuestas) ejecutar:
+```
+docker build -t sistema-encuestas .
+docker run -dp 5000:5000 sistema-encuestas
+```
+(Tema nuevo para mi docker, no se si me estoy salteando algún prerequisito, pude iniciar el container y al hacer requests recibo respuestas bien)
