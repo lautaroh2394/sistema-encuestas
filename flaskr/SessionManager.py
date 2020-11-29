@@ -5,14 +5,14 @@ from flaskr.DataManager import DataManager
 
 class SessionManager:
     instance = None
-    USUARIO_NO_LOGUEADO = str({
+    USUARIO_NO_LOGUEADO = {
         "exito": False,
         "mensaje": "Usuario no logueado"
-        })
-    LOGIN_ERROR = str({
+        }
+    LOGIN_ERROR = {
                 "mensaje": "Combinación de usuario y contraseña incorrectas",
                 "exito": False
-                })
+                }
     
     @staticmethod
     def get_instance():
@@ -23,7 +23,7 @@ class SessionManager:
     def __init__(self):
         self.usuarios_logueados = []
 
-    def usuario_logueado(self, id_usuario, session_key):
+    def usuario_logueado(self, id_usuario, session_key):       
         ids_logueados = [user.id for user in self.usuarios_logueados]
         if id_usuario in ids_logueados:
             usuario_logueado = [user for user in self.usuarios_logueados if user.id == id_usuario][0]

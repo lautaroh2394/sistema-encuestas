@@ -7,21 +7,22 @@ from flaskr.SessionManager import SessionManager
 #Inicializo usuarios de prueba
 #DataManager.get_instance().nuevo_usuario("usuario11","1234")
 
-def create_app(test_config=None):
+def create_app():
     app = Flask(__name__, instance_relative_config=True)
     DMI = DataManager.get_instance()
     SM = SessionManager.get_instance()
 
     def logueado(request):
-        return jsonify(SM.usuario_logueado(
+        return SM.usuario_logueado(
             request.form["usuario"],
             request.form["session_key"]
-            ))
+            )
 
     @app.route('/login', methods=["POST"])
     def login():
         if "usuario" not in request.form or "password" not in request.form:
             return jsonify(SM.LOGIN_ERROR)
+
         logged = SM.login_usuario(
             request.form["usuario"],
             request.form["password"]
@@ -112,7 +113,7 @@ def create_app(test_config=None):
         #Debugging purposes only
         usuarios = [{"usuario_id": u.id} for u in DMI.usuarios]
         logueados = [{"usuario_id": u.id, "s_k": u.session_key} for u in SM.usuarios_logueados]
-        encuestas = [DMI.encuesta(e.id) for e in DMI.encuestas]
+        encuestas = [DMI.encuesta(e.id, incluir_correcta=True) for e in DMI.encuestas]
         return jsonify({
             "usuarios" : usuarios,
             "logueados": logueados,

@@ -77,9 +77,9 @@ class DataManager:
         correctas = 0
         for pregunta in encuesta["preguntas"]:
             pregunta_id = pregunta["pregunta_id"]
-            respuesta_indicada = [respuesta for respuesta in respuestas_dadas if respuesta["pregunta_id"] == pregunta_id]
-            if not respuesta_indicada:
-                respuesta_indicada = respuesta_indicada[0]
+            respuestas_indicada = [respuesta for respuesta in respuestas_dadas if respuesta["pregunta_id"] == pregunta_id]
+            if respuestas_indicada:
+                respuesta_indicada = respuestas_indicada[0]
                 correcta = self.validar_pregunta(
                     pregunta_id,
                     respuesta_indicada["respuesta_indicada_id"]
