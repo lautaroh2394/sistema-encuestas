@@ -2,6 +2,7 @@ from flaskr.Usuario import Usuario
 from flaskr.Pregunta import Pregunta
 from flaskr.Respuesta import Respuesta
 from flaskr.Encuesta import Encuesta
+import json 
 
 class DataManager:
     instance = None
@@ -77,7 +78,7 @@ class DataManager:
         correctas = 0
         for pregunta in encuesta["preguntas"]:
             pregunta_id = pregunta["pregunta_id"]
-            respuestas_indicada = [respuesta for respuesta in respuestas_dadas if respuesta["pregunta_id"] == pregunta_id]
+            respuestas_indicada = [respuesta for respuesta in json.loads(respuestas_dadas) if respuesta["pregunta_id"] == pregunta_id]
             if respuestas_indicada:
                 respuesta_indicada = respuestas_indicada[0]
                 correcta = self.validar_pregunta(

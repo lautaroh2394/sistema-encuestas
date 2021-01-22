@@ -14,18 +14,18 @@ def create_app():
 
     def logueado(request):
         return SM.usuario_logueado(
-            request.form["usuario"],
-            request.form["session_key"]
+            request.json["usuario"],
+            request.json["session_key"]
             )
 
     @app.route('/login', methods=["POST"])
     def login():
-        if "usuario" not in request.form or "password" not in request.form:
+        if "usuario" not in request.json or "password" not in request.json:
             return jsonify(SM.LOGIN_ERROR)
 
         logged = SM.login_usuario(
-            request.form["usuario"],
-            request.form["password"]
+            request.json["usuario"],
+            request.json["password"]
             )
         if logged == False:
             return jsonify(SessionManager.LOGIN_ERROR)
@@ -37,12 +37,12 @@ def create_app():
     
     @app.route('/signup', methods=['POST'])
     def signup():
-        if "usuario" not in request.form or "password" not in request.form:
+        if "usuario" not in request.json or "password" not in request.json:
             return jsonify(SM.LOGIN_ERROR)
 
         rdo = DMI.nuevo_usuario(
-            request.form["usuario"],
-            request.form["password"]
+            request.json["usuario"],
+            request.json["password"]
             )
         return jsonify({
             "exito": rdo
@@ -52,8 +52,8 @@ def create_app():
     def encuesta():
         if not logueado(request): 
             return jsonify(SessionManager.USUARIO_NO_LOGUEADO)
-
-        preguntas = json.loads(request.form["preguntas"])
+        
+        preguntas = request.json["preguntas"]
         preguntas_id = []
         for pregunta in preguntas:
             respuestas_id = [DMI.nueva_respuesta(respuesta) for respuesta in pregunta["respuestas"]]
@@ -61,8 +61,8 @@ def create_app():
             preguntas_id.append(pregunta_id)
 
         etiquetas = []
-        if "etiquetas" in request.form:
-            etiquetas = json.loads(request.form["etiquetas"])
+        if "etiquetas" in request.json:
+            etiquetas = request.json["etiquetas"]
 
         id_encuesta = DMI.nueva_encuesta(preguntas_id, etiquetas)
         return jsonify({
@@ -87,7 +87,8 @@ def create_app():
     def listar_etiquetas(etiquetas=[]):
         if not logueado(request): return jsonify(SessionManager.USUARIO_NO_LOGUEADO)
         
-        return jsonify(DMI.encuestas_segun_etiquetas(json.loads(etiquetas)))
+        #return jsonify(DMI.encuestas_segun_etiquetas(json.loads(etiquetas)))
+        return jsonify(DMI.encuestas_segun_etiquetas(etiquetas))
     
     @app.route('/listar', methods=['POST'])
     def listar():
@@ -103,7 +104,8 @@ def create_app():
                 "mensaje" : "Debe indicar tanto el id de la encuesta como las respuestas"
             })
         
-        respuestas_dadas = json.loads(respuestas_dadas)
+        #respuestas_dadas = json.loads(respuestas_dadas)
+        respuestas_dadas = respuestas_dadas
         resultados = DMI.verificar_encuesta(encuesta_id, respuestas_dadas)
         resultados["exito"] = True
         return jsonify(resultados)
@@ -111,7 +113,7 @@ def create_app():
     @app.route('/listar_dm')
     def listarDM():
         #Debugging purposes only
-        usuarios = [{"usuario_id": u.id} for u in DMI.usuarios]
+        usuarios = [{"usuario_id": u.id, "usuario_pw": u.password} for u in DMI.usuarios]
         logueados = [{"usuario_id": u.id, "s_k": u.session_key} for u in SM.usuarios_logueados]
         encuestas = [DMI.encuesta(e.id, incluir_correcta=True) for e in DMI.encuestas]
         return jsonify({
