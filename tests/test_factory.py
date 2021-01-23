@@ -12,33 +12,32 @@ def test_config():
     assert not create_app().testing
 
 def test_signup(client):
-    response_b = client.post("/signup", json={
+    res = client.post("/signup", json={
         "usuario" : "usuario11",
         "password" : "1234"
     }, headers=headers)    
-    response = response_b.json
-    assert "exito" in response and response["exito"]
+    res_json = res.json
+    assert "exito" in res_json and res_json["exito"]
     assert DMI.usuarios[0].id == "usuario11"
 
-def test_login(client):
-    #pw incorrecta
-    response_b = client.post("/login", json={
+def test_login_incorrecto(client):
+    res = client.post("/login", json={
         "usuario" : "usuario11",
         "password" : "0"
     }, headers=headers)
-    response = response_b.json
-    assert "exito" in response and not response["exito"]
-    assert "session_key" not in response
+    res_json = res.json
+    assert "exito" in res_json and not res_json["exito"]
+    assert "session_key" not in res_json
 
-    #reenvío con pw correcta
-    response_b = client.post("/login", json={
+def test_login_correcto(client):
+    res = client.post("/login", json={
         "usuario" : "usuario11",
         "password" : "1234"
     }, headers=headers)
-    response = response_b.json
-    assert "exito" in response and response["exito"]
-    assert "session_key" in response
-    testing_values["session_key"] = response["session_key"]
+    res_json = res.json
+    assert "exito" in res_json and res_json["exito"]
+    assert "session_key" in res_json
+    testing_values["session_key"] = res_json["session_key"]
 
 def test_encuesta(client):
     payload = {
@@ -57,28 +56,29 @@ def test_encuesta(client):
         'etiquetas': "etiqueta1"
     }
     #session_key incorrecta
-    response_b = client.post("/encuesta", json=payload, headers=headers)
-    response = response_b.json
-    assert "exito" in response and not response["exito"] and "id_encuesta" not in response
+    res = client.post("/encuesta", json=payload, headers=headers)
+    res_json = res.json
+    assert "exito" in res_json and not res_json["exito"] and "id_encuesta" not in res_json
 
     #reenvío con session key correcta
     payload["session_key"] = testing_values["session_key"]
-    response_b = client.post("/encuesta", json=payload, headers=headers)
-    response = response_b.json
-    assert "exito" in response and response["exito"]
-    assert "id_encuesta" in response
-    testing_values["id_encuesta"] = response["id_encuesta"]
+    res = client.post("/encuesta", json=payload, headers=headers)
+    res_json = res.json
+    assert "exito" in res_json and res_json["exito"]
+    assert "id_encuesta" in res_json
+    testing_values["id_encuesta"] = res_json["id_encuesta"]
 
 def test_get_encuesta(client):
     #borro manualmente la entrada del usuario en SessionManager para demostrar la consulta pública de las encuestas
     SM.usuarios_logueados = []
-    response_b = client.get(f'/encuesta/{testing_values["id_encuesta"]}')
-    response = response_b.json
-    assert "encuesta" in response
-    assert "etiquetas" in response["encuesta"]
-    assert "etiqueta1" in response["encuesta"]["etiquetas"]
-    assert "preguntas" in response["encuesta"]
-    assert response["encuesta"]["preguntas"][0]["respuestas"] == [
+    
+    res = client.get(f'/encuesta/{testing_values["id_encuesta"]}')
+    res_json = res.json
+    assert "encuesta" in res_json
+    assert "etiquetas" in res_json["encuesta"]
+    assert "etiqueta1" in res_json["encuesta"]["etiquetas"]
+    assert "preguntas" in res_json["encuesta"]
+    assert res_json["encuesta"]["preguntas"][0]["respuestas"] == [
                     {
                         "respuesta_id": 0,
                         "texto": "rta 1"
@@ -95,16 +95,16 @@ def test_get_encuesta(client):
 
 def test_verificar_encuesta_correcta(client):
     #rta correcta
-    response_b = client.get(f'/verificar/encuesta_id={testing_values["id_encuesta"]}&respuestas=[%7B"pregunta_id": 0, "respuesta_indicada_id" : 0%7D]')
-    response = response_b.json
-    assert "exito" in response and response["exito"]
-    assert "preguntas_correctas" in response
-    assert response["preguntas_correctas"] == 1
+    res = client.get(f'/verificar/encuesta_id={testing_values["id_encuesta"]}&respuestas=[%7B"pregunta_id": 0, "respuesta_indicada_id" : 0%7D]')
+    res_json = res.json
+    assert "exito" in res_json and res_json["exito"]
+    assert "preguntas_correctas" in res_json
+    assert res_json["preguntas_correctas"] == 1
 
 def test_verificar_encuesta_incorrecta(client):
     #rta incorrecta
-    response_b = client.get(f'/verificar/encuesta_id={testing_values["id_encuesta"]}&respuestas=[%7B"pregunta_id": 0, "respuesta_indicada_id" : 1%7D]')
-    response = response_b.json
-    assert "exito" in response and response["exito"]
-    assert "preguntas_correctas" in response
-    assert response["preguntas_correctas"] == 0
+    res = client.get(f'/verificar/encuesta_id={testing_values["id_encuesta"]}&respuestas=[%7B"pregunta_id": 0, "respuesta_indicada_id" : 1%7D]')
+    res_json = res.json
+    assert "exito" in res_json and res_json["exito"]
+    assert "preguntas_correctas" in res_json
+    assert res_json["preguntas_correctas"] == 0
